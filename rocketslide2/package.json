@@ -1,0 +1,19 @@
+{
+  "name": "rocketslide2",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "qrcode-react": "^0.1.16",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-scripts": "1.1.4",
+    "react-scroll-to-component": "^1.0.2",
+    "socket.io-client": "^2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

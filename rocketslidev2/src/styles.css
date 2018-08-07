@@ -1,0 +1,11 @@
+.opacity{
+     -webkit-transition: opacity 0.5s ease-in-out;
+    -moz-transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5ms ease-in-out;
+}
+
+html{
+    background-color: blue;
+    padding: 0px;
+    margin:0px;
+}
