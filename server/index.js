@@ -3,21 +3,23 @@ let cors = require("cors");
 let express = require("express")
 
 var app = require('express')();
-app.use((req,res)=>{
-    console.log(req.url);
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.use((req,res,next)=>{
+    if(req.url == "/Show"){
+        res.sendFile(__dirname+"/build/reveal/visualizador.html");
+    }else{
+        res.sendFile(path.join(__dirname, '/build', 'index.html'));
+    }
 });
-app.use(express.static(path.join(__dirname, "public")));
-
-
-
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 io.on('connection', function(client){
-    console.log("USUARIO CONECTADO");
+    
     //mobile
     client.on("VERIFY_TOKEN",(req)=>{
-        console.log("VERIFICANDO TOKEN");
+        console.log(req,"VERIFICANDO TOKEN");
         let { token,remote } = req;
         console.log("token"+token+"\nremote"+remote);
         io.sockets.emit(token,{
@@ -29,7 +31,7 @@ io.on('connection', function(client){
     });
 
     client.on("CONFIRM_TOKEN",(req)=>{
-        console.log("CONFIRMANDO TOKEN");
+        console.log(req,"CONFIRMANDO TOKEN");
         let { token,remote } = req;
         io.sockets.emit(token,{
             action:"OPEN_PRESENTATION"
@@ -39,12 +41,13 @@ io.on('connection', function(client){
         });
     });
     client.on("COMMAND",(req)=>{
-        let { token,remote } = req;
+        console.log(req,"COMMAND");
+        let { token,remote,action } = req;
         io.sockets.emit(token,{
-            action:req.action,
+            action:action,
             remote:remote
         });
     });
 
 });
-http.listen(80);
+http.listen(3000);
