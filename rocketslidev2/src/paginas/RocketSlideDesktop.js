@@ -3,22 +3,31 @@ import scrollToComponent from 'react-scroll-to-component';
 import {generateHash} from "../functions/hashGenerator";
 import socketIOClient from "socket.io-client";
 import QRCode from "qrcode-react";
+import Modal from 'react-responsive-modal';
+import { isMobile } from "../functions/Utils";
 
-const socket = socketIOClient("http://192.168.1.110").connect();
+//const socket = socketIOClient("http://192.168.1.110:80").connect();
+const socket = socketIOClient(window.location.origin).connect();
 
-class RocketSlideDekstop extends Component {
-
+export default class RocketSlideDesktop extends Component {
     constructor(props){
         super(props);
-        this.state= {
-            token:generateHash(6).toUpperCase().trim()
+
+        if(isMobile()){
+            this.props.history.push("/Mobile/q/find");
         }
+
+        this.state= {
+            token:generateHash(6).toUpperCase().trim(),
+            modalVideo:false
+        }
+        window.localStorage.setItem("TOKEN_VIEW",this.state.token);
     }
 
 componentDidMount(){
     socket.on(this.state.token, (req) => {
         if(req.remote){
-            localStorage.setItem("TOKEN_REMOTE",req.mobile);
+            localStorage.setItem("TOKEN_REMOTE",req.remote);
             if(req.action == "CONFIRM_TOKEN"){
                 socket.emit("CONFIRM_TOKEN",{
                     token:this.state.token,
@@ -28,10 +37,11 @@ componentDidMount(){
         }
     });
     socket.on(this.state.token,res=>{
-        console.log(res,"SOCKETIO");
         if(res.action == "OPEN_PRESENTATION"){
+            document.getElementById("GO-APRESENTATION").click();
             window.localStorage.setItem("TOKEN_VIEW",this.state.token);
-            window.open(window.location.origin+"/show");
+
+            window.open(window.location.origin+"/Show");
         }
     });
 }
@@ -54,14 +64,14 @@ componentDidMount(){
             <div className="hero-inner">
                 <div className="hero-wrap-inside">
                     <h1>RocketSlide</h1>
-                    <span>Apresentações Academicas</span>
+                    <span>Controle com seu Smartphone</span>
                     <div className="purchase-button">
-                        <a href="#" className="btn btn-default btn-orange"><i className="fa fa-shopping-cart"></i> | Purchase Now</a>
+                        <a href="#" onClick={()=>this.setState({modalVideo:true})} className="btn btn-default btn-orange"><i className="fa fa-question-circle"></i> Como usar ? </a>
                         <a onClick={()=>scrollToComponent(this.refs.page_layout,{
                              offset: 1000,
                              align: 'bottom',
                              duration: 1500
-                        })} className="btn btn-default btn-orange smoothscroll" href="#"><i className="fa fas-link"></i> | View Demo</a>
+                        })} className="btn btn-default btn-orange smoothscroll" href="#"><i className="fa fa-play"></i> Começar </a>
                     </div>
                 </div>
             </div>
@@ -72,7 +82,7 @@ componentDidMount(){
             <div className="row">
                 <div className="col-xs-12">
                     <div className="layout-title">
-                        <h2>7 HOME PAGE | AND OTHER LAYOUT'S</h2>
+                        <h2>Acesse este WebSite em seu SmartPhone para utilizar o controle remoto</h2>
                     </div>
                 </div>
             </div>
@@ -98,7 +108,7 @@ componentDidMount(){
                                     <QRCode value={this.state.token} />
                                     <br/>
                                      <span style={{fontWeight:"bold"}} >{this.state.token}</span>
-                                    <button id="GO-APRESENTATION">Apresentar</button>
+                                    <button style={{display:"none"}} id="GO-APRESENTATION">Apresentar</button>
                                 </div>
                             </div>
                         </div>
@@ -127,19 +137,28 @@ componentDidMount(){
         <div className="container">
             <div className="row">
                 <div className="col-xs-12 text-center">
-                    <h3 className="preview-footer-title">
-                            MAKE YOUR WEBSITE WITH OUR Apps Awesome Landing TEMPALTE
-                        </h3>
-                    <h4><a href="#" target="_blank" className="btn btn-dfault btn-preview"><i className="fa fa-shopping-cart"></i> | PURCHASE NOW!</a></h4>
-                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <h4><a href="#" onClick={()=>this.setState({modalVideo:true})} className="btn btn-dfault btn-preview"><i className="fa fa-question-circle"></i> Como usar ?</a></h4>
+                    Feito com o <i style={{color:"red"}} class="fa fa-heart"></i> | Desenvolvido por <span style={{fontWeight:"bold"}} > IgorPancheski </span>  
                 </div>
             </div>
         </div>
     </div>
-    
+    <Modal
+          open={this.state.modalVideo}
+          onClose={()=>this.setState({modalVideo:false})}
+          center
+          style={{backgroundColor:"red"}}
+          classNames={{ modal: 'custom-basic-white' }}
+          >
+
+          <iframe id="ytplayer" type="text/html" width="640" height="360"
+                src="http://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+            frameborder="0"/>
+
+    </Modal>
     </div>
     );
   }
 }
 
-export default RocketSlideDekstop;
+

@@ -6,11 +6,15 @@
     max-width: 500px;
     width: 100%;
 }
+
+.custom-basic-white {
+  background: #b2dbbf;
+  max-width: 54%;
+  width: 100%;
+}
 /* -----------------------------------------
   =Default css to make the demo more pretty
 -------------------------------------------- */
-
-
 
 .content {
   padding: 15px;

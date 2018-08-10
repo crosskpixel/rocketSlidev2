@@ -9,7 +9,8 @@ import socketIOClient from "socket.io-client";
 import {generateHash} from "../functions/hashGenerator";
 import ModalLoading from "../component/modalLoading/modalLoading";
 
-const socket = socketIOClient("http://192.168.1.110:80").connect()
+//const socket = socketIOClient("http://192.168.1.110:80").connect();
+const socket = socketIOClient(window.location.origin).connect();
 
 const hasServiceQrCode = () =>{
     navigator.getUserMedia = (navigator.getUserMedia ||
@@ -33,7 +34,19 @@ export default class RocketSlideMobile extends Component{
             showTxtPassword:false,
             valueTxtPassword:""
         };
-        console.log(socket);
+
+        if(this.props.match.params.value != "find" && this.props.match.params.value != "code"){
+            this.setState({
+                valueTxtPassword:this.props.match.params.value
+            });
+            setTimeout(()=>{
+                this.verifyToken();
+            },500);
+        }else if(this.props.match.params.value == "code"){
+            setTimeout(()=>{
+                this.setState({showTxtPassword:true,isQrCode:false});
+            },500);
+        }
     }
 
     scanQRCode(){
@@ -88,11 +101,11 @@ export default class RocketSlideMobile extends Component{
             remote:TOKEN_REMOTE
         });
         socket.on(TOKEN_REMOTE,res =>{
-            console.log(res,"SOCKETIO");
             if(res.action == "OPEN_CONTROLS"){
-                alert("ABRIR CONTROLES");
+                this.refs.modalLoading.closeModal();
+                window.localStorage.setItem("TOKEN",this.state.valueTxtPassword);
+                this.props.history.push("/Mobile/Pads");
             }
-            //this.refs.modalLoading.closeModal();
         });
     }
 
@@ -106,7 +119,6 @@ export default class RocketSlideMobile extends Component{
     }
 
     render(){
-        
         return(
             <div>
                 <BackGroundAnimated onClick={this.resetContent} >
@@ -123,10 +135,8 @@ export default class RocketSlideMobile extends Component{
                     </div>
                     {this.ButtonQRCode()}
                     {this.ButtonInsertCode()}
-                    <ModalLoading ref="modalLoading" ></ModalLoading>
-
+                    <ModalLoading onClose={()=>this.props.history.push("/Mobile/q/code")} ref="modalLoading" ></ModalLoading>
                 </BackGroundAnimated>
-
             </div>
         );
     }

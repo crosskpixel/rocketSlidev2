@@ -3,6 +3,11 @@ import Modal from 'react-responsive-modal';
 import './custom-styling.css';
 
 export default class ModalLoading extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
   state = {
     open: false,
   };
@@ -15,13 +20,20 @@ export default class ModalLoading extends React.Component {
     this.setState({ open: false });
   };
 
+  onClose = ()=>{
+    this.setState({
+      open:false
+    });
+    this.props.onClose();
+  }
+
   render() {
     const { open } = this.state;
     return (
       <div>
         <Modal
           open={open}
-          onClose={this.onCloseModal}
+          onClose={this.onClose}
           center
           classNames={{ overlay: 'custom-overlay', modal: 'custom-modal' }}
         >

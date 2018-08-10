@@ -142,16 +142,14 @@ Reveal.initialize({\
 		$("#GO-APRESENTATION").click(function () {
 			if (localStorage) {
 				localStorage.setItem("slides", LZString.compressToUTF16($result.html()));
-				window.open("./show/now.html", "_blank");
+				//window.open("./show/now.html", "_blank");
 			} else {
 				alert("Browser don't support Web Storage!");
 			}
 		});
 		
 	} else {
-		
 		alert("Browser don't support Web Worker!");
-		
 	}
 	
 });

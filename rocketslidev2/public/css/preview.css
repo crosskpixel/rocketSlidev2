@@ -15,7 +15,7 @@ a {
 
 .hero-wrap {
     background-attachment: fixed;
-    background-image: url("../img/index-hero.jpg");
+    background-image: url("../img/background-principal.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
@@ -32,7 +32,7 @@ a {
     top: 0px;
     left: 0px;
     bottom: 0px;
-    background: #353535;
+    background: #35353587;
     opacity: 0.9;
     z-index: -1;
 }
@@ -90,7 +90,7 @@ a {
 }
 
 .layout-title h2 {
-    color: #f77037;
+    color: #37a4f7;
     font-size: 32px;
     font-weight: 700;
     height: auto;
@@ -109,9 +109,9 @@ a {
 
 .btn-preview {
     background: transparent none repeat scroll 0 0;
-    border: 3px solid #f9621f;
+    border: 3px solid #37a4f7;
     border-radius: 25px;
-    color: #f9621f;
+    color: #37a4f7;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0;
@@ -122,7 +122,7 @@ a {
 }
 
 .btn-preview:hover {
-    background: #f9621f;
+    background:#1491f1;
     color: #fff;
 }
 
