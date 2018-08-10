@@ -40,7 +40,6 @@ componentDidMount(){
         if(res.action == "OPEN_PRESENTATION"){
             document.getElementById("GO-APRESENTATION").click();
             window.localStorage.setItem("TOKEN_VIEW",this.state.token);
-
             window.open(window.location.origin+"/Show");
         }
     });
@@ -100,7 +99,6 @@ componentDidMount(){
                                             <input id="uploadBtn" type="file" className="upload" accept="application/vnd.openxmlformats-officedocument.presentationml.presentation"/>
                                             <input id="to-reveal-btn" type="hidden" />
                                         </div>
-
                                         <div id="carregando" style={{display: "none",marginTop:"1em"}}>
                                             <span style={{color:"#e97040",fontSize:25,bottom:10,position: "relative"}}>Carrregando...</span>
                                         </div>
@@ -138,7 +136,7 @@ componentDidMount(){
             <div className="row">
                 <div className="col-xs-12 text-center">
                     <h4><a href="#" onClick={()=>this.setState({modalVideo:true})} className="btn btn-dfault btn-preview"><i className="fa fa-question-circle"></i> Como usar ?</a></h4>
-                    Feito com o <i style={{color:"red"}} class="fa fa-heart"></i> | Desenvolvido por <span style={{fontWeight:"bold"}} > IgorPancheski </span>  
+                    Feito com o <i style={{color:"red"}} className="fa fa-heart"></i> | Desenvolvido por <span style={{fontWeight:"bold"}} > IgorPancheski </span>  
                 </div>
             </div>
         </div>
@@ -152,7 +150,7 @@ componentDidMount(){
           >
 
           <iframe id="ytplayer" type="text/html" width="640" height="360"
-                src="http://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+                src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
             frameborder="0"/>
 
     </Modal>

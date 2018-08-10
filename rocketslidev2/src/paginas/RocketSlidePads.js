@@ -18,6 +18,12 @@ export default class RocketSlidePads extends Component{
         }
     }
 
+    componentDidMount(){
+        if(!this.state.remote && !this.state.token){
+            this.props.history.push("/Mobile/q/find");
+        }
+    }
+
     commandSocket = (value)=>{
         socket.emit("COMMAND",{
             token:this.state.token,

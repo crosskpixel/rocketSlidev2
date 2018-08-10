@@ -19,7 +19,9 @@ export default class RocketSlideScanner extends Component{
     }
 
     handleError = (err) =>{
-        console.log(err,"ERRO");
+        if(err){
+            window.location.reload();
+        }
     }
 
     handleScan = (str) =>{

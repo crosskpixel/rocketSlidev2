@@ -3,11 +3,12 @@ let cors = require("cors");
 let express = require("express")
 
 var app = require('express')();
-
 app.use(express.static(path.join(__dirname, 'build')));
 app.use((req,res,next)=>{
+    console.log(req);   
     if(req.url == "/Show"){
         res.sendFile(__dirname+"/build/reveal/visualizador.html");
+        //res.sendFile(path.join(__dirname, '/build/reveal', 'visualizador.html'));
     }else{
         res.sendFile(path.join(__dirname, '/build', 'index.html'));
     }
@@ -16,7 +17,7 @@ app.use((req,res,next)=>{
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 io.on('connection', function(client){
-    
+    console.log("CONECTOU")
     //mobile
     client.on("VERIFY_TOKEN",(req)=>{
         console.log(req,"VERIFICANDO TOKEN");

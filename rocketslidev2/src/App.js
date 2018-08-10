@@ -31,7 +31,7 @@ class App extends Component {
                 <Route path={"/Mobile/q/:value"} component={RocketSlideMobile} />
                 <Route exact path={"/Mobile/Scanner"} component={RocketSlideScanner} />
                 <Route exact path={"/Mobile/Pads"} component={RocketSlidePads} />
-                <Route render={()=><h1>Essa Pagina não existe mano..</h1>} />
+                <Route render={()=><h1>404</h1>} />
             </Switch>
         </div>
     );

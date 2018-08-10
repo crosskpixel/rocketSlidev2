@@ -34,14 +34,11 @@ export default class RocketSlideMobile extends Component{
             showTxtPassword:false,
             valueTxtPassword:""
         };
+    }
 
+    componentDidMount(){
         if(this.props.match.params.value != "find" && this.props.match.params.value != "code"){
-            this.setState({
-                valueTxtPassword:this.props.match.params.value
-            });
-            setTimeout(()=>{
-                this.verifyToken();
-            },500);
+            this.verifyToken();
         }else if(this.props.match.params.value == "code"){
             setTimeout(()=>{
                 this.setState({showTxtPassword:true,isQrCode:false});
@@ -49,7 +46,7 @@ export default class RocketSlideMobile extends Component{
         }
     }
 
-    scanQRCode(){
+    scanQRCode = () => {
         navigator.getUserMedia = (navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia || 
@@ -58,10 +55,10 @@ export default class RocketSlideMobile extends Component{
             navigator.getUserMedia({
                     video: true,
                     audio: false
-                },function(localMediaStream) {
-                    window.open(window.location.origin+"/Mobile/Scanner");
+                },(localMediaStream) => {
+                    this.props.history.push("/Mobile/Scanner");
                 },
-                function(err) {
+                (err) => {
                     console.log(err);
                     alert("Seu Dispositivo não suporta este recurso");
                 }
@@ -97,13 +94,13 @@ export default class RocketSlideMobile extends Component{
         let TOKEN_REMOTE = generateHash(6).toUpperCase();
         localStorage.setItem("TOKEN_REMOTE",TOKEN_REMOTE);
         socket.emit("VERIFY_TOKEN",{
-            token:this.state.valueTxtPassword,
+            token:this.state.valueTxtPassword || this.props.match.params.value,
             remote:TOKEN_REMOTE
         });
         socket.on(TOKEN_REMOTE,res =>{
             if(res.action == "OPEN_CONTROLS"){
                 this.refs.modalLoading.closeModal();
-                window.localStorage.setItem("TOKEN",this.state.valueTxtPassword);
+                window.localStorage.setItem("TOKEN",this.state.valueTxtPassword || this.props.match.params.value);
                 this.props.history.push("/Mobile/Pads");
             }
         });

@@ -3,6 +3,7 @@ $(document).ready(function() {
 		var $result = $("#result");
 		var isDone = false;
 		$("#uploadBtn").on("change", function(evt) {
+			$("#carregando").css("display","block");
 			isDone = false;
 			$result.html("");
 			$("#load-progress").text("0%").attr("aria-valuenow", 0).css("width", "0%");
@@ -11,8 +12,8 @@ $(document).ready(function() {
 			// Read the file
 			var reader = new FileReader();
 			reader.onload = (function(theFile) {
+				
 				return function(e) {
-					
 					// Web Worker
 					var worker = new Worker('./js/worker.js');
 				
@@ -31,7 +32,8 @@ $(document).ready(function() {
 								break;
 							case "processMsgQueue":
 								processMsgQueue(msg.data);
-								$("#div-qrcode").slideToggle();
+								$("#div-qrcode").slideDown();
+								$("#carregando").css("display","none");
 								break;
 							case "pptx-thumb":
 								$("#pptx-thumb").attr("src", "data:image/jpeg;base64," + msg.data);
@@ -66,7 +68,7 @@ $(document).ready(function() {
 								break;
 							case "INFO":
 							default:
-								console.info('Worker: ', msg.data);
+								console.info('Worker4: ', msg.data);
 								//$("#info_block").html($("#info_block").html() + "<br><br>" + msg.data);
 						}
 						
@@ -147,11 +149,9 @@ Reveal.initialize({\
 				alert("Browser don't support Web Storage!");
 			}
 		});
-		
 	} else {
 		alert("Browser don't support Web Worker!");
 	}
-	
 });
 
 function processMsgQueue(queue) {
